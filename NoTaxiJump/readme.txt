@@ -1,0 +1,1 @@
+Ever been annoyed that if you complete the 100 fares with the taxi sidemission, it will lose its horn function? After you completed 100 fares, this script lets you disable the boost jump if you press the DELETE button while in a taxi. After this you can sound the horn. If you wish to turn back to the boost jump, press the TAB button.

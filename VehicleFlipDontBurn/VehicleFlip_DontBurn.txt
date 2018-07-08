@@ -1,0 +1,8 @@
+{$CLEO .cs}
+
+//-------------MAIN---------------
+05DF: write_memory 4972562 size 4 value -1869574000 virtual_protect 1 
+05DF: write_memory 4972566 size 2 value 37008 virtual_protect 1 
+05DF: write_memory 5879620 size 4 value -1869574000 virtual_protect 1 
+05DF: write_memory 5879624 size 2 value 37008 virtual_protect 1 
+05DC: end_custom_thread 

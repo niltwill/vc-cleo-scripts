@@ -1,0 +1,1 @@
+You may not always want to initiate the 'Checkpoint Charlie' sidemission, but simply wish to ride one of the two boats there. If so, use this script.

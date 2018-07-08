@@ -1,0 +1,24 @@
+{$CLEO .cs}
+
+thread 'HREGEN'
+
+0@ = 0
+
+:DEF
+wait 0
+if 
+   Player.Defined($PLAYER_CHAR)
+jf @DEF
+
+while true
+    wait 250
+    if and
+        0@ < 30
+        0@ > 0
+    then
+        0@ = Actor.Health($PLAYER_ACTOR)
+        0@ += 1 
+        Actor.Health($PLAYER_ACTOR) = 0@
+        wait 10000
+    end
+end

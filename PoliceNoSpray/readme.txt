@@ -1,0 +1,1 @@
+Prevents you from using one or two police vehicles that can be used with Pay'n'Spray, as well as not letting you use the Pay'n'Spray after 4* wanted levels (meaning you need to collect the star bribes to reduce your wanted level)

@@ -1,0 +1,40 @@
+{$CLEO .cs}
+
+const
+TJUMP = 0@
+end
+
+0000: NOTAXIJUMP
+
+TJUMP = 0
+
+while true
+    wait 250
+    
+    if 
+        Player.Defined($PLAYER_CHAR)
+    then
+    
+        if and
+            TJUMP == 0
+            $373 == 1
+            02DE:   player $PLAYER_CHAR driving_taxi_vehicle
+            05EE:   key_pressed 46 //delete key
+        then
+            0572: set_taxi_boost_jump 0
+            TJUMP = 1
+        end
+        
+        if and
+            TJUMP == 1
+            $373 == 1
+            02DE:   player $PLAYER_CHAR driving_taxi_vehicle
+            05EE:   key_pressed 9 //tab key
+        then
+            0572: set_taxi_boost_jump 1
+            TJUMP = 0
+        end
+        
+    end
+
+end

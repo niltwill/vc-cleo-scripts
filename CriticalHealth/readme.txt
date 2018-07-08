@@ -1,0 +1,1 @@
+This CLEO script adds a critical health function, so if your character health (not the armour) falls below 10, you will begin to bleed, and occasionally fall backwards on the ground for a little time while onfoot. Your driving and shooting will also be severely impaired while at critical health (the exact effect from the mission 'Boomshine Saigon').

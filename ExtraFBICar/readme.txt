@@ -1,0 +1,1 @@
+This spawns an FBI Washington near to the player, with a firing agent on top of the vehicle. Only appears at 5* wanted level, and will keep respawning after you kill this special unit or do not change your 5* wanted level.

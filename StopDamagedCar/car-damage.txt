@@ -1,0 +1,76 @@
+{$CLEO .cs}
+
+thread 'CARDMGC'
+
+:START
+wait 0
+if
+    00E0:   player $PLAYER_CHAR driving
+jf @START
+03C1: 0@ = player $PLAYER_CHAR car_no_save
+10@ = 0
+jump @M1
+
+//1000 - default max car health
+//650 - around white smoke
+//350 - around black smoke
+
+:M1
+wait 0
+if and
+    8185:   not car 0@ health >= 420
+    10@ == 0
+jf @M1
+
+0209: 7@ = random_int_in_ranges 1 5
+if 7@ == 1
+then
+8@ = 15500
+wait 8@
+if
+    8185:   not car 0@ health >= 420
+jf @START
+02D4: car 0@ turn_off_engine
+10@ = 1
+end
+if 7@ == 2
+then
+8@ = 25700
+wait 8@
+if
+    8185:   not car 0@ health >= 420
+jf @START
+02D4: car 0@ turn_off_engine
+10@ = 1
+end
+if 7@ == 3
+then
+8@ = 35200
+wait 8@
+if
+    8185:   not car 0@ health >= 420
+jf @START
+02D4: car 0@ turn_off_engine
+10@ = 1
+end
+if 7@ == 4
+then
+if
+    8185:   not car 0@ health >= 420
+jf @START
+02D4: car 0@ turn_off_engine
+10@ = 1
+end
+if 7@ == 5
+then
+8@ = 47400
+wait 8@
+if
+    8185:   not car 0@ health >= 420
+jf @START
+02D4: car 0@ turn_off_engine
+10@ = 1
+end
+
+
+jump @START

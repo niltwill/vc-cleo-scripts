@@ -1,0 +1,54 @@
+{$CLEO .cs}
+
+thread 'NoFlip'
+
+while 8256: not player $PLAYER_CHAR defined 
+    wait 250
+end
+
+:P1
+wait 0 
+if and
+   not Actor.Dead($PLAYER_ACTOR)
+   Actor.Driving($PLAYER_ACTOR)
+jf @P1
+0@ = Actor.CurrentCar($PLAYER_ACTOR)
+jump @P2
+
+:P2
+wait 0 
+if or
+   Actor.Dead($PLAYER_ACTOR)
+   not Actor.InCar($PLAYER_ACTOR, 0@)
+jf @P3 
+jump @P1
+
+:P3
+if and
+01F4:   car 0@ flipped
+01C1:   car 0@ stopped  
+81F3:   not car 0@ airborne 
+jf @P2 
+wait 2500 
+jump @P4
+
+:P4
+wait 0 
+if or
+81F4:   not car 0@ flipped
+81C1:   not car 0@ stopped 
+01F3:   car 0@ airborne
+   Actor.Dead($PLAYER_ACTOR)
+wasted_or_busted 
+   //not Actor.InCar($PLAYER_ACTOR, 0@)
+   if 8449: not actor $PLAYER_ACTOR in_a_car
+jf @P5 
+jump @P1
+
+:P5
+1@ = Actor.Health($PLAYER_ACTOR)
+Camera.Shake(100)
+1@ -= 1 // integer values 
+Actor.Health($PLAYER_ACTOR) = 1@
+wait 100
+jump @P4

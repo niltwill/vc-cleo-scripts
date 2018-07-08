@@ -1,0 +1,118 @@
+{$CLEO .cs}
+
+//-------------MAIN---------------
+thread 'ASHWIN' 
+
+:ASHWIN_10
+wait 0 
+if
+   Player.Defined($PLAYER_CHAR)
+else_jump @ASHWIN_10
+if or
+00DE:   player $PLAYER_CHAR driving_vehicle_type #FIRETRUK
+00DE:   player $PLAYER_CHAR driving_vehicle_type #RHINO
+else_jump @ASHWIN_10 
+05E0: 0@ = read_memory 8276416 size 4 virtual_protect 0 
+0@ += 1456 // integer values 
+jump @ASHWIN_67 
+
+:ASHWIN_67
+wait 0 
+05E0: 1@ = read_memory 9660688 size 4 virtual_protect 0 
+if or
+00DE:   player $PLAYER_CHAR driving_vehicle_type #FIRETRUK
+00DE:   player $PLAYER_CHAR driving_vehicle_type #RHINO
+else_jump @ASHWIN_10 
+if 
+   not 1@ == 0.0 // floating-point values 
+else_jump @ASHWIN_67 
+if and
+  1@ >= 1.0 // floating-point values (never used in VC or GTA 3) 
+   not 1@ >= 10.0 // floating-point values (never used in VC or GTA 3) 
+else_jump @ASHWIN_173 
+3@ = -0.025 // floating-point values 
+jump @ASHWIN_581 
+
+:ASHWIN_173
+if and
+  1@ >= 10.0 // floating-point values (never used in VC or GTA 3) 
+   not 1@ >= 20.0 // floating-point values (never used in VC or GTA 3) 
+else_jump @ASHWIN_221 
+3@ = -0.05 // floating-point values 
+jump @ASHWIN_581 
+
+:ASHWIN_221
+if and
+  1@ >= 20.0 // floating-point values (never used in VC or GTA 3) 
+   not 1@ >= 30.0 // floating-point values (never used in VC or GTA 3) 
+else_jump @ASHWIN_269 
+3@ = -0.075 // floating-point values 
+jump @ASHWIN_581 
+
+:ASHWIN_269
+if and
+  1@ >= 30.0 // floating-point values (never used in VC or GTA 3) 
+   not 1@ >= 40.0 // floating-point values (never used in VC or GTA 3) 
+else_jump @ASHWIN_317 
+3@ = -0.1 // floating-point values 
+jump @ASHWIN_581 
+
+:ASHWIN_317
+  1@ >= 40.0 // floating-point values (never used in VC or GTA 3) 
+else_jump @ASHWIN_351 
+3@ = -0.15 // floating-point values 
+jump @ASHWIN_581 
+
+:ASHWIN_351
+if and
+  -1.0 >= 1@ // floating-point values (never used in VC or GTA 3) 
+   not -10.0 >= 1@ // floating-point values (never used in VC or GTA 3) 
+else_jump @ASHWIN_399 
+3@ = 0.025 // floating-point values 
+jump @ASHWIN_581 
+
+:ASHWIN_399
+if and
+  -10.0 >= 1@ // floating-point values (never used in VC or GTA 3) 
+   not -20.0 >= 1@ // floating-point values (never used in VC or GTA 3) 
+else_jump @ASHWIN_447 
+3@ = 0.05 // floating-point values 
+jump @ASHWIN_581 
+
+:ASHWIN_447
+if and
+  -20.0 >= 1@ // floating-point values (never used in VC or GTA 3) 
+   not -30.0 >= 1@ // floating-point values (never used in VC or GTA 3) 
+else_jump @ASHWIN_495 
+3@ = 0.075 // floating-point values 
+jump @ASHWIN_581 
+
+:ASHWIN_495
+if and
+  -30.0 >= 1@ // floating-point values (never used in VC or GTA 3) 
+   not -40.0 >= 1@ // floating-point values (never used in VC or GTA 3) 
+else_jump @ASHWIN_543 
+3@ = 0.1 // floating-point values 
+jump @ASHWIN_581 
+
+:ASHWIN_543
+if 
+  -40.0 >= 1@ // floating-point values (never used in VC or GTA 3) 
+else_jump @ASHWIN_67 
+3@ = 0.15 // floating-point values 
+jump @ASHWIN_581 
+
+:ASHWIN_581
+05E0: 2@ = read_memory 0@ size 4 virtual_protect 0 
+005B: 2@ += 3@ // floating-point values (never used in VC or GTA 3) 
+05DF: write_memory 0@ size 4 value 2@ virtual_protect 0 
+jump @ASHWIN_67 
+0000: NOP 
+0000: NOP 
+6854: 
+7461: 
+7720: 
+7361: 
+4520: 
+7361: 
+0279: 

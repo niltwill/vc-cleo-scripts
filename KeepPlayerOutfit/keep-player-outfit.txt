@@ -1,0 +1,253 @@
+{$CLEO .cs}
+0000:
+
+//The code for checking busted/wasted is from ThirteenAG's Buy Back Your Weapons CLEO script:
+//https://github.com/ThirteenAG/III.VC.SA.CLEOScripts/blob/master/gtavc/VC.BuyBackYourWeapons.txt
+//But you cannot seem to use the opcode "0A8D" but "05E0" for VC
+
+var
+10@: int
+11@: int
+12@: int 
+13@: int 
+14@: int
+15@: int
+end
+
+05E0: 14@ = read_memory 0x975330 size 4 virtual_protect 1  // dwTimesBusted
+05E0: 15@ = read_memory 0x975320 size 4 virtual_protect 1  // dwTimesWasted
+
+while true
+wait 0  
+05E0: 12@ = read_memory 0x975330 size 4 virtual_protect 1  // dwTimesBusted
+05E0: 13@ = read_memory 0x975320 size 4 virtual_protect 1  // dwTimesWasted
+
+    if or
+     12@ > 14@   
+     13@ > 15@
+    then
+        
+        if and
+            10@ == 0
+            0500:   player $PLAYER_CHAR skin == 'PLAYER'
+        then
+            11@ = 1
+            10@ = 1
+        end
+        
+        if and
+            10@ == 0
+            0500:   player $PLAYER_CHAR skin == 'PLAYER2'
+        then
+            11@ = 2
+            10@ = 1
+        end
+        
+        if and
+            10@ == 0
+            0500:   player $PLAYER_CHAR skin == 'PLAYER3'
+        then
+            11@ = 3
+            10@ = 1
+        end
+        
+        if and
+            10@ == 0
+            0500:   player $PLAYER_CHAR skin == 'PLAYER4'
+        then
+            11@ = 4
+            10@ = 1
+        end
+        
+        if and
+            10@ == 0
+            0500:   player $PLAYER_CHAR skin == 'PLAYER5'
+        then
+            11@ = 5
+            10@ = 1
+        end
+        
+        if and
+            10@ == 0
+            0500:   player $PLAYER_CHAR skin == 'PLAYER6'
+        then
+            11@ = 6
+            10@ = 1
+        end
+        
+        if and
+            10@ == 0
+            0500:   player $PLAYER_CHAR skin == 'PLAYER7'
+        then
+            11@ = 7
+            10@ = 1
+        end
+        
+        if and
+            10@ == 0
+            0500:   player $PLAYER_CHAR skin == 'PLAYER8'
+        then
+            11@ = 8
+            10@ = 1
+        end
+        
+        if and
+            10@ == 0
+            0500:   player $PLAYER_CHAR skin == 'PLAYER9'
+        then
+            11@ = 9
+            10@ = 1
+        end
+        
+        if and
+            10@ == 0
+            0500:   player $PLAYER_CHAR skin == 'PLAY10'
+        then
+            11@ = 10
+            10@ = 1
+        end
+        
+        if and
+            10@ == 0
+            0500:   player $PLAYER_CHAR skin == 'PLAY11'
+        then
+            11@ = 11
+            10@ = 1
+        end
+        
+        if and
+            10@ == 0
+            0500:   player $PLAYER_CHAR skin == 'PLAY12'
+        then
+            11@ = 12
+            10@ = 1
+        end
+        
+        if and
+            10@ == 0
+            0500:   player $PLAYER_CHAR skin == 'PLAY13'
+        then
+            11@ = 13
+            10@ = 1
+        end
+            
+        while 8256:  not player $player_char defined
+         wait 0
+        end  
+        while 016B:   fading
+         wait 0
+         //do it
+        if
+            11@ == 1
+        then
+            0352: set_actor $PLAYER_ACTOR skin_to 'PLAYER' 
+            038B: load_requested_models
+            0353: refresh_actor $PLAYER_ACTOR
+        end
+    
+        if
+            11@ == 2
+        then
+            0352: set_actor $PLAYER_ACTOR skin_to 'PLAYER2' 
+            038B: load_requested_models
+            0353: refresh_actor $PLAYER_ACTOR
+        end
+        
+        if
+            11@ == 3
+        then
+            0352: set_actor $PLAYER_ACTOR skin_to 'PLAYER3' 
+            038B: load_requested_models
+            0353: refresh_actor $PLAYER_ACTOR
+        end
+        
+        if
+            11@ == 4
+        then
+            0352: set_actor $PLAYER_ACTOR skin_to 'PLAYER4' 
+            038B: load_requested_models
+            0353: refresh_actor $PLAYER_ACTOR
+        end
+        
+        if
+            11@ == 5
+        then
+            0352: set_actor $PLAYER_ACTOR skin_to 'PLAYER5' 
+            038B: load_requested_models
+            0353: refresh_actor $PLAYER_ACTOR
+        end
+        
+        if
+            11@ == 6
+        then
+            0352: set_actor $PLAYER_ACTOR skin_to 'PLAYER6' 
+            038B: load_requested_models
+            0353: refresh_actor $PLAYER_ACTOR
+        end
+        
+        if
+            11@ == 7
+        then
+            0352: set_actor $PLAYER_ACTOR skin_to 'PLAYER7' 
+            038B: load_requested_models
+            0353: refresh_actor $PLAYER_ACTOR
+        end
+        
+        if
+            11@ == 8
+        then
+            0352: set_actor $PLAYER_ACTOR skin_to 'PLAYER8' 
+            038B: load_requested_models
+            0353: refresh_actor $PLAYER_ACTOR
+        end
+        
+        if
+            11@ == 9
+        then
+            0352: set_actor $PLAYER_ACTOR skin_to 'PLAYER9' 
+            038B: load_requested_models
+            0353: refresh_actor $PLAYER_ACTOR
+        end
+        
+        if
+            11@ == 10
+        then
+            0352: set_actor $PLAYER_ACTOR skin_to 'PLAY10' 
+            038B: load_requested_models
+            0353: refresh_actor $PLAYER_ACTOR
+        end
+        
+        if
+            11@ == 11
+        then
+            0352: set_actor $PLAYER_ACTOR skin_to 'PLAY11' 
+            038B: load_requested_models
+            0353: refresh_actor $PLAYER_ACTOR
+        end
+        
+        if
+            11@ == 12
+        then
+            0352: set_actor $PLAYER_ACTOR skin_to 'PLAY12' 
+            038B: load_requested_models
+            0353: refresh_actor $PLAYER_ACTOR
+        end
+        
+        if
+            11@ == 13
+        then
+            0352: set_actor $PLAYER_ACTOR skin_to 'PLAY13' 
+            038B: load_requested_models
+            0353: refresh_actor $PLAYER_ACTOR
+        end
+        
+        11@ = 0
+        10@ = 0
+        end
+        wait 0
+
+    end
+
+05E0: 14@ = read_memory 0x975330 size 4 virtual_protect 1  // dwTimesBusted
+05E0: 15@ = read_memory 0x975320 size 4 virtual_protect 1  // dwTimesWasted
+end

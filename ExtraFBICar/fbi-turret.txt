@@ -1,0 +1,148 @@
+{$CLEO .cs}
+
+thread 'FBITUR'
+
+const
+X_POS = 0@
+Y_POS = 1@
+Z_POS = 2@
+FBICAR = 3@
+FBI1 = 4@
+FBI2 = 5@
+WANTED_LEVEL = 6@
+DONE = 7@
+FBI_DEAD = 8@
+X2_POS = 9@
+Y2_POS = 10@
+Z2_POS = 11@
+end
+
+DONE = 0
+FBI_DEAD = 0 // if both dies, respawn is re-initiated
+
+while true
+    wait 50
+    01C0: WANTED_LEVEL = player $PLAYER_CHAR wanted_level //needed to store this to prevent crash with regular WL opcodes
+    if
+        DONE > 2
+    then
+        DONE = 0
+    end    
+    if and
+        DONE == 0
+        WANTED_LEVEL == 5
+    then
+        //wait 35 seconds
+        16@ = 0
+        DONE = 1
+    end
+    if and
+        DONE == 1
+        WANTED_LEVEL == 5
+        16@ > 35000
+    then
+        wait 50
+        0247: request_model #FBICAR
+        0247: request_model #FBI
+        0247: request_model #MP5LNG
+        038B: load_requested_models
+        0054: store_player $PLAYER_CHAR position_to X_POS Y_POS Z_POS
+        04D3: get_nearest_car_path_coords_from X_POS Y_POS Z_POS type 2 store_to X2_POS Y2_POS Z2_POS
+        //X_POS += 120.0
+        //Y_POS += 70.0
+        00A5: FBICAR = create_car #FBICAR at X2_POS Y2_POS Z2_POS        
+        0129: FBI1 = create_actor 4 #FBI in_car FBICAR driverseat
+        02A9: set_actor FBI1 immune_to_nonplayer 1
+        
+        02AA: set_car FBICAR immune_to_nonplayer 1
+        020A: set_car FBICAR door_status_to 7
+        00AF: set_car FBICAR driver_behaviour_to 21
+        00AE: set_vehicle FBICAR traffic_behavior_to 2
+        0397: car FBICAR siren = 1
+        
+        Car.StorePos(FBICAR, X2_POS, Y2_POS, Z2_POS)
+        Z2_POS -= 20.0
+        009A: FBI2 = create_actor_pedtype 4 model #FBI at X2_POS Y2_POS Z2_POS
+        0243: set_actor FBI2 ped_stats_to 16
+        0223: set_actor FBI2 health_to 200
+      	035F: set_actor FBI2 armour_to 100
+        02E2: set_actor FBI2 weapon_accuracy_to 85
+        0464: put_actor FBI2 into_turret_on_car FBICAR at_car_offset 0.0 -0.3 0.8 position 0 angle 360.0 with_weapon 25
+        0114: set_actor FBI2 car_weapon 25 ammo_to 9999
+        0350: set_actor FBI2 maintain_position_when_attacked 1
+        02A9: set_actor FBI2 immune_to_nonplayer 1
+        01CA: actor FBI2 kill_player $PLAYER_CHAR
+        0249: release_model #FBICAR
+        0249: release_model #FBI
+        0249: release_model #MP5LNG
+        DONE = 2
+    end
+    if and
+        DONE == 2
+        WANTED_LEVEL < 1
+    then
+        if
+            not Car.Wrecked(FBICAR)
+        then
+            00AF: set_car FBICAR driver_behaviour_to 10
+            00AE: set_vehicle FBICAR traffic_behavior_to 5
+            0397: car FBICAR siren = 0
+        end
+        if
+            02BF:   car FBICAR sunk
+        then
+            0465: remove_actor FBI2 from_turret_mode
+            0350: set_actor FBI2 maintain_position_when_attacked 0
+        end
+        if
+            not Actor.Dead(FBI1)
+        then
+            01ED: clear_actor FBI1 threat_search
+            01C2: remove_references_to_actor FBI1
+        end
+        if
+            not Actor.Dead(FBI2)
+        then
+            01ED: clear_actor FBI2 threat_search
+            01C2: remove_references_to_actor FBI2
+        end
+        DONE += 1
+    end
+    if and
+        DONE == 2
+        02BF:   car FBICAR sunk
+    then
+        0465: remove_actor FBI2 from_turret_mode
+        0350: set_actor FBI2 maintain_position_when_attacked 0
+    end
+    if and
+        DONE == 2
+        Actor.Dead(FBI2)
+    then
+        0465: remove_actor FBI2 from_turret_mode
+        01C2: remove_references_to_actor FBI2
+        FBI_DEAD += 1
+    end
+    if and
+        DONE == 2
+        Actor.Dead(FBI1)
+    then
+        01C2: remove_references_to_actor FBI1
+        FBI_DEAD += 1
+    end
+    if and
+        DONE == 2
+        FBI_DEAD == 2
+    then
+        FBI_DEAD = 0
+        01C3: remove_references_to_car FBICAR
+        DONE += 1
+    end
+    if and
+        DONE == 2
+        Car.Wrecked(FBICAR)
+    then
+        01C3: remove_references_to_car FBICAR
+        DONE += 1
+    end
+end

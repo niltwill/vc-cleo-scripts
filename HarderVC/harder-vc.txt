@@ -1,0 +1,336 @@
+{$CLEO .cs}
+
+0000: VCDIF3
+
+1@ = 0
+2@ = 0
+3@ = 0
+4@ = 0
+7@ = 0
+8@ = 0
+9@ = 0
+10@ = 0
+11@ = 0
+12@ = 0
+16@ = 0
+
+while true
+    wait 0
+    if 
+       Player.Defined($PLAYER_CHAR)
+    then
+    
+        04DD: 7@ = actor $PLAYER_ACTOR armour
+        0226: 8@ = actor $PLAYER_ACTOR health
+        
+        
+        if
+            7@ >= 100
+        then
+            035F: set_actor $PLAYER_ACTOR armour_to 100
+        end
+        
+        if
+            8@ >= 50
+        then
+            0223: set_actor $PLAYER_ACTOR health_to 50
+        end
+        
+        if
+            not $ONMISSION == 1
+        then
+            03C7: set_sensitivity_to_crime_to 2.0
+        end
+        
+        if and
+            $6756 > 12
+            1@ == 0
+        then
+            0330: set_player $PLAYER_CHAR infinite_run_to 0
+            1@ = 1
+        end
+        
+        if and
+            $108 == 1
+            9@ == 0
+        then
+            0331: set_player $PLAYER_CHAR fast_reload 0
+            9@ = 1
+        end
+        
+        if and
+            $1583 == 1
+            11@ == 0
+        then
+            055D: make_player $PLAYER_CHAR fireproof 0
+            11@ = 1
+        end
+        
+        
+        /*if
+            2@ == 0
+        then
+            0243: set_actor $PLAYER_ACTOR ped_stats_to 4
+            2@ = 1
+        end*/
+       
+        //0470: 3@ = actor $PLAYER_ACTOR armed_weapon
+        
+        if or
+            0490:   player $PLAYER_CHAR has_weapon 29 //PSG-1 to Sniper Rifle
+            02D7:   player $PLAYER_CHAR currentweapon == 29
+        then
+            0419: 4@ = player $player_char weapon 29 ammo
+            0247: request_model #SNIPER
+            038B: load_requested_models
+            01B1: give_player $PLAYER_CHAR weapon 28 ammo 4@ // Load the weapon model before using this 
+            0249: release_model #SNIPER
+        end
+        
+        if or
+            0490:   player $PLAYER_CHAR has_weapon 33 //Minigun to Flame Thrower
+            02D7:   player $PLAYER_CHAR currentweapon == 33
+        then
+            0419: 4@ = player $player_char weapon 33 ammo
+            0247: request_model #FLAME
+            038B: load_requested_models
+            01B1: give_player $PLAYER_CHAR weapon 31 ammo 4@ // Load the weapon model before using this 
+            0249: release_model #FLAME
+        end
+        
+        if or
+            0490:   player $PLAYER_CHAR has_weapon 26 //M4 to Kruger
+            02D7:   player $PLAYER_CHAR currentweapon == 26
+        then
+            0419: 4@ = player $player_char weapon 26 ammo
+            0247: request_model #RUGER
+            038B: load_requested_models
+            01B1: give_player $PLAYER_CHAR weapon 27 ammo 4@ // Load the weapon model before using this 
+            0249: release_model #RUGER
+        end
+        
+        if or
+            0490:   player $PLAYER_CHAR has_weapon 25 //MP5 to Uzi
+            02D7:   player $PLAYER_CHAR currentweapon == 25
+        then
+            0419: 4@ = player $player_char weapon 25 ammo
+            0247: request_model #UZI
+            038B: load_requested_models
+            01B1: give_player $PLAYER_CHAR weapon 23 ammo 4@ // Load the weapon model before using this 
+            0249: release_model #UZI
+        end
+        
+        if or
+            0490:   player $PLAYER_CHAR has_weapon 20 //Spas12 to Shotgun
+            02D7:   player $PLAYER_CHAR currentweapon == 20
+        then
+            0419: 4@ = player $player_char weapon 20 ammo
+            0247: request_model #CHROMEGUN
+            038B: load_requested_models
+            01B1: give_player $PLAYER_CHAR weapon 19 ammo 4@ // Load the weapon model before using this 
+            0249: release_model #CHROMEGUN
+        end
+        
+        if or
+            0490:   player $PLAYER_CHAR has_weapon 30 //Rocket Launcher to M60
+            02D7:   player $PLAYER_CHAR currentweapon == 30
+        then
+            0419: 4@ = player $player_char weapon 30 ammo
+            0247: request_model #M60
+            038B: load_requested_models
+            01B1: give_player $PLAYER_CHAR weapon 32 ammo 4@ // Load the weapon model before using this 
+            0249: release_model #M60
+        end
+        
+        
+        //----------------
+        
+        if
+          not $ONMISSION == 1
+        then  
+        
+            if or
+                0490:   player $PLAYER_CHAR has_weapon 12 //Grenade
+                02D7:   player $PLAYER_CHAR currentweapon == 12
+            then
+                0419: 4@ = player $player_char weapon 12 ammo
+                if
+                    4@ > 10
+                then
+                    017A: set_player $PLAYER_CHAR weapon 12 ammo_to 10
+                end
+            end
+            
+            if or
+                0490:   player $PLAYER_CHAR has_weapon 13 //Detonate Grenade
+                02D7:   player $PLAYER_CHAR currentweapon == 13
+            then
+                0419: 4@ = player $player_char weapon 13 ammo
+                if
+                    4@ > 10
+                then
+                    017A: set_player $PLAYER_CHAR weapon 13 ammo_to 10
+                end
+            end
+            
+            if or
+                0490:   player $PLAYER_CHAR has_weapon 14 //Tear Gas
+                02D7:   player $PLAYER_CHAR currentweapon == 14
+            then
+                0419: 4@ = player $player_char weapon 14 ammo
+                if
+                    4@ > 10
+                then
+                    017A: set_player $PLAYER_CHAR weapon 14 ammo_to 10
+                end
+            end
+            
+            if or
+                0490:   player $PLAYER_CHAR has_weapon 15 //Molotov
+                02D7:   player $PLAYER_CHAR currentweapon == 15
+            then
+                0419: 4@ = player $player_char weapon 15 ammo
+                if
+                    4@ > 10
+                then
+                    017A: set_player $PLAYER_CHAR weapon 15 ammo_to 10
+                end
+            end
+            
+            if or
+                0490:   player $PLAYER_CHAR has_weapon 17 //Colt 45
+                02D7:   player $PLAYER_CHAR currentweapon == 17
+            then
+                0419: 4@ = player $player_char weapon 17 ammo
+                if
+                    4@ > 65
+                then
+                    017A: set_player $PLAYER_CHAR weapon 17 ammo_to 65
+                end
+            end
+            
+            if or
+                0490:   player $PLAYER_CHAR has_weapon 18 //Python
+                02D7:   player $PLAYER_CHAR currentweapon == 18
+            then
+                0419: 4@ = player $player_char weapon 18 ammo
+                if
+                    4@ > 30
+                then
+                    017A: set_player $PLAYER_CHAR weapon 18 ammo_to 30
+                end
+            end
+            
+            if or
+                0490:   player $PLAYER_CHAR has_weapon 19 //Shotgun
+                02D7:   player $PLAYER_CHAR currentweapon == 19
+            then
+                0419: 4@ = player $player_char weapon 19 ammo
+                if
+                    4@ > 25
+                then
+                    017A: set_player $PLAYER_CHAR weapon 19 ammo_to 25
+                end
+            end
+            
+            if or
+                0490:   player $PLAYER_CHAR has_weapon 21 //Stubby Shotgun
+                02D7:   player $PLAYER_CHAR currentweapon == 21
+            then
+                0419: 4@ = player $player_char weapon 21 ammo
+                if
+                    4@ > 25
+                then
+                    017A: set_player $PLAYER_CHAR weapon 21 ammo_to 25
+                end
+            end                
+    
+            if or
+                0490:   player $PLAYER_CHAR has_weapon 22 //Tec-9
+                02D7:   player $PLAYER_CHAR currentweapon == 22
+            then
+                0419: 4@ = player $player_char weapon 22 ammo
+                if
+                    4@ > 150
+                then
+                    017A: set_player $PLAYER_CHAR weapon 22 ammo_to 150
+                end
+            end   
+             
+            if or
+                0490:   player $PLAYER_CHAR has_weapon 23 //UZI
+                02D7:   player $PLAYER_CHAR currentweapon == 23
+            then
+                0419: 4@ = player $player_char weapon 23 ammo
+                if
+                    4@ > 150
+                then
+                    017A: set_player $PLAYER_CHAR weapon 23 ammo_to 150
+                end
+            end 
+            
+            if or
+                0490:   player $PLAYER_CHAR has_weapon 24 //Ingram
+                02D7:   player $PLAYER_CHAR currentweapon == 24
+            then
+                0419: 4@ = player $player_char weapon 24 ammo
+                if
+                    4@ > 150
+                then
+                    017A: set_player $PLAYER_CHAR weapon 24 ammo_to 150
+                end
+            end
+            
+            if or
+                0490:   player $PLAYER_CHAR has_weapon 27 //Kruger
+                02D7:   player $PLAYER_CHAR currentweapon == 27
+            then
+                0419: 4@ = player $player_char weapon 27 ammo
+                if
+                    4@ > 120
+                then
+                    017A: set_player $PLAYER_CHAR weapon 27 ammo_to 120
+                end
+            end
+            
+            if or
+                0490:   player $PLAYER_CHAR has_weapon 31 //Flame Thrower
+                02D7:   player $PLAYER_CHAR currentweapon == 31
+            then
+                0419: 4@ = player $player_char weapon 31 ammo
+                if
+                    4@ > 1000
+                then
+                    017A: set_player $PLAYER_CHAR weapon 31 ammo_to 1000
+                end
+            end
+            
+            if or
+                0490:   player $PLAYER_CHAR has_weapon 32 //M60
+                02D7:   player $PLAYER_CHAR currentweapon == 32
+            then
+                0419: 4@ = player $player_char weapon 32 ammo
+                if
+                    4@ > 150
+                then
+                    017A: set_player $PLAYER_CHAR weapon 32 ammo_to 150
+                end
+            end
+            
+            if or
+                0490:   player $PLAYER_CHAR has_weapon 28 //Sniper rifle
+                02D7:   player $PLAYER_CHAR currentweapon == 28
+            then
+                0419: 4@ = player $player_char weapon 28 ammo
+                if
+                    4@ > 8
+                then
+                    017A: set_player $PLAYER_CHAR weapon 28 ammo_to 8
+                end
+            end
+        
+        end     
+        
+        
+    end
+end

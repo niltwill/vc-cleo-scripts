@@ -1,0 +1,1 @@
+This increases or decreases the traffic density depending on the game time. Most notably, the night time will now be sparser.

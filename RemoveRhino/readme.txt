@@ -1,0 +1,1 @@
+This script will remove the Rhino tank at 6* wanted level. After all, it might seem a bit unfair for lots of tanks that go explosive on touch to your vehicle. The Army Barracks is kept in.

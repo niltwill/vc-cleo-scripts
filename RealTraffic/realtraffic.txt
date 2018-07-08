@@ -1,0 +1,62 @@
+{$CLEO .cs}
+thread 'RTRAF'
+
+:1
+wait 0
+00BF: 0@ = current_time_hours, 1@ = current_time_minutes
+if and
+    Player.Defined($PLAYER_CHAR)
+    $ONMISSION == 0
+then
+    if and
+        0@ >= 5
+        7 > 0@
+    then
+        01EB: set_traffic_density_multiplier_to 0.5
+        03DE: set_pedestrians_density_multiplier_to 0.5
+    end
+    if and
+        0@ >= 7
+        9 > 0@
+    then
+        01EB: set_traffic_density_multiplier_to 1.0
+        03DE: set_pedestrians_density_multiplier_to 1.0
+    end
+    if and
+        0@ >= 9
+        10 > 0@
+    then
+        01EB: set_traffic_density_multiplier_to 3.0
+        03DE: set_pedestrians_density_multiplier_to 3.0
+    end 
+    if and
+        0@ >= 10
+        20 > 0@
+    then
+        01EB: set_traffic_density_multiplier_to 2.0
+        03DE: set_pedestrians_density_multiplier_to 2.0
+    end
+    if and 
+        0@ >= 20
+        24 > 0@
+    then
+        01EB: set_traffic_density_multiplier_to 0.5
+        03DE: set_pedestrians_density_multiplier_to 0.5
+    end
+    if and
+        0@ >= 0
+        1 > 0@
+    then
+        01EB: set_traffic_density_multiplier_to 0.3
+        03DE: set_pedestrians_density_multiplier_to 0.3
+    end
+    if and
+        0@ >= 1
+        5 > 0@
+    then
+        01EB: set_traffic_density_multiplier_to 0.1
+        03DE: set_pedestrians_density_multiplier_to 0.01
+    end           
+end
+jump @1 
+      

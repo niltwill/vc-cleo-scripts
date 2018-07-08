@@ -1,0 +1,3 @@
+I found this script on a Russian GTA site (I think), and modified it a bit.
+
+It finally lets you use the Car Wash in Washington Beach. Although this requires $250 (what a rip-off, right?), but it is basically the same as a Pay'n'Spray. Your car will be repaired at the end of it. One difference is that this only accepts cars (not any other vehicle type) and it is also a time-limited service, thus you have to be mindful of the time in the game. It also will not wash your car if you are in too much heat due to the cops (you are allowed to have 1 star wanted level to use it).

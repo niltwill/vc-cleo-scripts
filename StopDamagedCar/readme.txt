@@ -1,0 +1,1 @@
+This script makes sure to stop your vehicle after a while if it's in critical health (sign to tell this: black smoke), halting its engine. You need to reenter the vehicle to go on with it. Beware that this only affects the player's vehicle.

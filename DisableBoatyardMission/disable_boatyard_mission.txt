@@ -1,0 +1,10 @@
+{$CLEO .cs}
+thread 'OFF_BYM'
+if
+    $607 == 1
+    //$8582 > 5
+then
+0459: end_thread_named 'COKRUN'
+0459: end_thread_named 'COKERUN'
+end
+05DC: end_custom_thread

@@ -1,0 +1,31 @@
+{$CLEO .cs}
+
+0@ = 0
+
+// Sets police radio in Hunter
+THREAD 'POLRHUN'
+
+:POLRHUN_1
+wait 0
+if
+   Player.Defined($PLAYER_CHAR)
+jf @POLRHUN_1
+if
+   00DE: player $PLAYER_CHAR driving_vehicle_type #HUNTER
+jf @POLRHUN_3
+jump @POLRHUN_2
+
+:POLRHUN_2
+0@ = 1
+041E: set_radio_station 23 -1
+jump @POLRHUN_3
+
+:POLRHUN_3
+if and
+    0@ == 1
+    80DE:   not player $PLAYER_CHAR driving_vehicle_type #HUNTER
+jf @POLRHUN_1
+0209: 1@ = random_int_in_ranges 0 9
+041E: set_radio_station 1@ -1
+0@ = 0
+jump @POLRHUN_1

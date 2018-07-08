@@ -1,0 +1,1 @@
+It might be a little annoying at times to constantly have the machine gun equipped while driving a vehicle. So while you are driving and not in drive-by mode (not looking left or right - ready to fire), press the PAGE DOWN button to remove the machine gun.

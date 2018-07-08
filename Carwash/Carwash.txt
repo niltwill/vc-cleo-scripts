@@ -1,0 +1,221 @@
+{$CLEO .cs}
+
+//-------------MAIN---------------
+thread 'MOYKA'
+
+:MOYKA_0
+wait 10
+if
+   $ONMISSION == 1
+else_jump @MOYKA_10
+03BD: destroy_sphere 6@
+jump @MOYKA_0
+
+:MOYKA_10
+wait 0 
+if
+   Player.Defined($PLAYER_CHAR)
+else_jump @MOYKA_10
+//02A8: $374 = create_icon_marker_and_sphere 1 at 37.56 -1088.393 10.9633
+wait 250
+03BC: 6@ = create_sphere 30.2429 -1088.465 10.4633 5.0  
+
+:MOYKA_52
+wait 0
+$INN1 = 0 // integer values
+
+:MOYKA_88
+wait 0 
+if 
+   Player.Defined($PLAYER_CHAR)
+else_jump @MOYKA_88 
+wait 0 
+if 
+   not Actor.Driving($PLAYER_ACTOR)
+else_jump @MOYKA_183
+if
+   $ONMISSION == 0
+else_jump @MOYKA_0    
+if 
+0102:   actor $PLAYER_ACTOR stopped_near_point_on_foot 30.2429 -1088.465 10.4633 radius 6.0 5.5 5.0 sphere 0 
+else_jump @MOYKA_183 
+jump @MOYKA_1448 
+
+:MOYKA_183
+wait 0 
+if 
+   Actor.Driving($PLAYER_ACTOR)
+else_jump @MOYKA_88 
+$PLAYATCCAR = Actor.CurrentCar($PLAYER_ACTOR)
+wait 0 
+if 
+01B0:   car $PLAYATCCAR stopped 0 30.2429 -1088.465 10.4633 radius 6.0 5.5 5.0 
+else_jump @MOYKA_88 
+gosub @MOYKA_1600 
+wait 0 
+if or
+04C9:   player $PLAYER_CHAR driving_plane 
+04A8:   player $PLAYER_CHAR driving_boat 
+047E:   player $PLAYER_CHAR driving_a_motorbike 
+else_jump @MOYKA_307 
+jump @MOYKA_1448
+
+:MOYKA_307
+wait 10
+$MONEY = Player.Money($PLAYER_CHAR)
+01C0: $WANTED = player $PLAYER_CHAR wanted_level
+if and
+  $MONEY >= 250 // integer values 
+  $MONEY >= 250 // integer values 
+else_jump @MOYKA_1524
+if
+  $WANTED <= 1   
+else_jump @MOYKA_1550 
+03BD: destroy_sphere 6@ 
+wait 200 
+Player.Money($PLAYER_CHAR) += -250
+fade 0 500 
+wait 500 
+00BC: text_highpriority 'WASH_1' 6000 ms 1 
+Player.CanMove($PLAYER_CHAR) = False
+Player.ClearWantedLevel($PLAYER_CHAR)
+Car.PutAt($PLAYATCCAR, 30.2429, -1088.465, 9.4633)
+wait 0 
+Car.Angle($PLAYATCCAR) = -90.0
+Camera.SetPosition(27.2429, -1088.465, 13.4633, 0.0, 0.0, 0.0)
+Camera.OnVehicle($PLAYATCCAR, 15, 2)
+fade 1 500 
+wait 500 
+Car.DriveTo($PLAYATCCAR, 39.56, -1088.393, 10.4633)
+Car.SetMaxSpeed($PLAYATCCAR, 5.0)
+wait 3000 
+
+:MOYKA_522
+wait 50 
+$INN1 += 1 // integer values 
+0437: scatter_particle 26 1.0 at 37.56 -1088.393 10.9633 0.0 0.0 0.0 
+0437: scatter_particle 46 1.0 at 37.56 -1088.393 10.9633 0.0 0.0 0.0 
+0437: scatter_particle 26 0.8 at 39.56 -1088.393 10.9633 0.0 0.0 0.0 
+0437: scatter_particle 46 0.8 at 39.56 -1088.393 10.9633 0.0 0.0 0.0 
+0437: scatter_particle 29 0.52 at 39.56 -1088.393 10.9633 0.0 0.0 0.0 
+0437: scatter_particle 26 0.8 at 35.56 -1088.393 10.9633 0.0 0.0 0.0 
+0437: scatter_particle 46 0.8 at 35.56 -1088.393 10.9633 0.0 0.0 0.0 
+0437: scatter_particle 29 0.52 at 35.56 -1088.393 10.9633 0.0 0.0 0.0 
+if 
+  $INN1 == 60 // integer values 
+else_jump @MOYKA_522 
+fade 0 500 
+wait 500 
+$10B = Car.Angle($PLAYATCCAR)
+03F3: get_car $PLAYATCCAR color $3C $4C 
+Car.PutAt($PLAYATCCAR, 150.2429, -1088.465, 29.4633)
+$875 = Car.Model($PLAYATCCAR)
+Model.Load($875)
+$882 = Car.Create($875, 39.56, -1088.393, 10.4633)
+0229: set_car $882 color_to $3C $4C 
+Car.Angle($882) = $10B
+wait 100 
+0369: put_player $PLAYER_CHAR in_car $882 
+Camera.SetPosition(53.2429, -1088.465, 15.4633, 0.0, 0.0, 0.0)
+Camera.OnVehicle($882, 15, 2)
+$INN1 = 0 // integer values 
+wait 400 
+fade 1 500 
+
+:MOYKA_1041
+wait 50 
+$INN1 += 1 // integer values 
+0437: scatter_particle 26 1.0 at 37.56 -1088.393 10.9633 0.0 0.0 0.0 
+0437: scatter_particle 46 1.0 at 37.56 -1088.393 10.9633 0.0 0.0 0.0 
+0437: scatter_particle 26 0.8 at 41.56 -1088.393 10.9633 0.0 0.0 0.0 
+0437: scatter_particle 46 0.8 at 41.56 -1088.393 10.9633 0.0 0.0 0.0 
+0437: scatter_particle 29 0.52 at 41.56 -1088.393 10.9633 0.0 0.0 0.0 
+0437: scatter_particle 26 0.8 at 35.56 -1088.393 10.9633 0.0 0.0 0.0 
+0437: scatter_particle 46 0.8 at 35.56 -1088.393 10.9633 0.0 0.0 0.0 
+0437: scatter_particle 29 0.52 at 35.56 -1088.393 10.9633 0.0 0.0 0.0 
+if 
+  $INN1 == 40 // integer values 
+else_jump @MOYKA_1041 
+Car.DriveTo($882, 50.56, -1088.393, 10.4633)
+00BC: text_highpriority 'WASH_2' 6000 ms 1 
+wait 2000
+Player.CanMove($PLAYER_CHAR) = True 
+03E2: actor $PLAYER_ACTOR exit_car
+Camera.Restore
+Car.RemoveReferences($PLAYATCCAR)
+03BC: 6@ = create_sphere 30.2429 -1088.465 10.4633 5.0
+jump @MOYKA_52 
+
+:MOYKA_1448
+wait 100 
+0512: show_permanent_text_box 'WASH_3' 
+if 
+8102:   not actor $PLAYER_ACTOR stopped_near_point_on_foot 30.2429 -1088.465 10.4633 radius 6.0 5.5 5.0 sphere 0 
+else_jump @MOYKA_1448 
+wait 3000 
+03E6: remove_text_box 
+jump @MOYKA_88 
+
+:MOYKA_1524
+wait 100 
+0512: show_permanent_text_box 'WASH_4' 
+if 
+81B0:   not car $PLAYATCCAR stopped 0 30.2429 -1088.465 10.4633 radius 6.0 5.5 5.0 
+else_jump @MOYKA_1524 
+wait 3000 
+03E6: remove_text_box 
+jump @MOYKA_88
+
+:MOYKA_1550
+wait 100 
+0512: show_permanent_text_box 'WASH_8' 
+if 
+81B0:   not car $PLAYATCCAR stopped 0 30.2429 -1088.465 10.4633 radius 6.0 5.5 5.0 
+else_jump @MOYKA_1550 
+wait 3000 
+03E6: remove_text_box 
+jump @MOYKA_88
+
+:MOYKA_1600
+00BF: $HOURS = current_time_hours, $MINUTES = current_time_minutes 
+if and
+  $HOURS >= 7 // integer values 
+   not $HOURS >= 23 // integer values 
+else_jump @MOYKA_1671 
+if 
+   not $HOURS == 12 // integer values 
+else_jump @MOYKA_1747 
+if 
+   not $HOURS == 19 // integer values 
+else_jump @MOYKA_1823 
+return 
+
+:MOYKA_1671
+wait 100 
+0512: show_permanent_text_box 'WASH_5' 
+if 
+81B0:   not car $PLAYATCCAR stopped 0 30.2429 -1088.465 10.4633 radius 6.0 5.5 5.0 
+else_jump @MOYKA_1671 
+wait 3000 
+03E6: remove_text_box 
+jump @MOYKA_88 
+
+:MOYKA_1747
+wait 100 
+0512: show_permanent_text_box 'WASH_6' 
+if 
+81B0:   not car $PLAYATCCAR stopped 0 30.2429 -1088.465 10.4633 radius 6.0 5.5 5.0 
+else_jump @MOYKA_1747 
+wait 3000 
+03E6: remove_text_box 
+jump @MOYKA_88 
+
+:MOYKA_1823
+wait 100 
+0512: show_permanent_text_box 'WASH_7' 
+if 
+81B0:   not car $PLAYATCCAR stopped 0 30.2429 -1088.465 10.4633 radius 6.0 5.5 5.0 
+else_jump @MOYKA_1823 
+wait 3000 
+03E6: remove_text_box 
+jump @MOYKA_88 

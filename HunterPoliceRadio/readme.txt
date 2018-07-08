@@ -1,0 +1,1 @@
+Most vigilante vehicles do not have radio stations available for listening. The Hunter, for some reason, does. This script disables that.

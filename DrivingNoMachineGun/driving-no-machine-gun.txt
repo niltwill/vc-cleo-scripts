@@ -1,0 +1,22 @@
+{$CLEO .cs}
+
+thread 'DRVNM'
+
+:DEF
+wait 0
+if 
+   Player.Defined($PLAYER_CHAR)
+jf @DEF
+jump @START
+
+:START
+wait 0
+if and
+00E0:   player $PLAYER_CHAR driving //we have to be driving a vehicle obviously
+05EE:   key_pressed 34 //page down key removes our currently equipped weapon
+80E1:   not player 0 pressed_button 5 //make sure we are not looking left (not in drive-by mode)
+80E1:   not player 0 pressed_button 7 //make sure we are not looking right (not in drive-by mode)
+82D8:   not actor $PLAYER_ACTOR current_weapon == 0 //if we are already on fists, don't do anything 
+jf @DEF
+01B9: set_actor $PLAYER_ACTOR armed_weapon_to 0
+jump @DEF

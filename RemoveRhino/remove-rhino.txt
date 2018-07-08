@@ -1,0 +1,33 @@
+{$CLEO .cs}
+
+//-------------MAIN---------------
+0000:
+
+1@ = 0
+ 
+:START
+while true
+    while 8112:   not wasted_or_busted
+        wait 250
+        01C0: 0@ = player $PLAYER_CHAR wanted_level //needed to store this to prevent crash with regular WL opcodes
+        if and
+            0@ >= 6
+            1@ == 0
+        then
+            05DF: write_memory 0x4D1E23 size 1 value 8 virtual_protect 0 //army off
+            05DF: write_memory 0x4D1E43 size 1 value 6 virtual_protect 0 //fbi on
+            05DF: write_memory 0x4D1E63 size 1 value 6 virtual_protect 0 //swat on
+            1@ = 1
+        end
+        
+        if and
+            0@ < 6
+            1@ == 1
+        then
+            05DF: write_memory 0x4D1E23 size 1 value 6 virtual_protect 0 //army on
+            05DF: write_memory 0x4D1E43 size 1 value 5 virtual_protect 0 //fbi 5
+            05DF: write_memory 0x4D1E63 size 1 value 4 virtual_protect 0 //swat 4
+            1@ = 0
+        end
+    end
+end 
