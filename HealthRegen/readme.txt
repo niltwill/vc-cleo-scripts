@@ -1,1 +1,1 @@
-This script regenerates your health if it falls below 30. Your health regenerates back to 30 slowly.
+This script slowly regenerates your health for about 50%.
