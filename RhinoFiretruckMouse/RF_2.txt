@@ -1,0 +1,223 @@
+{$CLEO .cs}
+
+//-------------MAIN---------------
+thread 'FRT_MSB'
+
+const
+MAIN_FRT = 0@
+X_FRT = 1@
+Y_FRT = 2@
+MOUSE_X = 3@
+MOUSE_Y = 4@
+X_ADD = 5@
+Y_ADD = 6@
+X_VAL = 7@
+Y_VAL = 8@
+end
+
+while true
+    wait 0
+    if
+        Player.Defined($PLAYER_CHAR)
+    then
+        if
+            00DE:   player $PLAYER_CHAR driving_vehicle_type #FIRETRUK
+        then
+            03C0: MAIN_FRT = actor $PLAYER_ACTOR car_no_save
+            
+            05E7: X_FRT = car MAIN_FRT struct
+            05E7: Y_FRT = car MAIN_FRT struct
+            X_FRT += 0x5B0 // 1456, cannon rotation to the left and right
+            Y_FRT += 0x5B4 // 1460, cannon rotation to up and down
+            
+            if
+                MOUSE_X == 0.0
+            then
+                05E0: MOUSE_X = read_memory 0x936910 size 4 virtual_protect 0  //X angle (left/right)
+            end
+
+            if
+                MOUSE_Y == 0.0
+            then
+                05E0: MOUSE_Y = read_memory 0x936914 size 4 virtual_protect 0  //Y angle (up/down)
+            end
+
+            //X1
+            if and
+                MOUSE_X >= 1.0
+                not MOUSE_X >= 10.0
+            then
+                X_ADD = 0.025
+                gosub @WRITEMEM_X
+            end
+            
+            if and
+                MOUSE_X >= 10.0
+                not MOUSE_X >= 20.0
+            then
+                X_ADD = 0.05
+                gosub @WRITEMEM_X
+            end
+            
+            if and
+                MOUSE_X >= 20.0
+                not MOUSE_X >= 30.0
+            then
+                X_ADD = 0.075
+                gosub @WRITEMEM_X
+            end
+            
+            if and
+                MOUSE_X >= 30.0
+                not MOUSE_X >= 40.0
+            then
+                X_ADD = 0.1
+                gosub @WRITEMEM_X
+            end
+            
+            if
+                MOUSE_X >= 40.0
+            then
+                X_ADD = 0.15
+                gosub @WRITEMEM_X
+            end
+            
+            //X2
+            if and
+                -1.0 >= MOUSE_X
+                not -10.0 >= MOUSE_X
+            then
+                X_ADD = -0.025
+                gosub @WRITEMEM_X
+            end
+            
+            if and
+                -10.0 >= MOUSE_X
+                not -20.0 >= MOUSE_X
+            then
+                X_ADD = -0.05
+                gosub @WRITEMEM_X
+            end
+            
+            if and
+                -20.0 >= MOUSE_X
+                not -30.0 >= MOUSE_X
+            then
+                X_ADD = -0.075
+                gosub @WRITEMEM_X
+            end
+            
+            if and
+                -30.0 >= MOUSE_X
+                not -40.0 >= MOUSE_X
+            then
+                X_ADD = -0.1
+                gosub @WRITEMEM_X
+            end
+            
+            if
+                -40.0 >= MOUSE_X
+            then
+                X_ADD = -0.15
+                gosub @WRITEMEM_X
+            end
+            
+            //Y1
+            if and
+                MOUSE_Y >= 1.0
+                not MOUSE_Y >= 10.0
+            then
+                Y_ADD = 0.025
+                gosub @WRITEMEM_Y
+            end
+            
+            if and
+                MOUSE_Y >= 10.0
+                not MOUSE_Y >= 20.0
+            then
+                Y_ADD = 0.05
+                gosub @WRITEMEM_Y
+            end
+            
+            if and
+                MOUSE_Y >= 20.0
+                not MOUSE_Y >= 30.0
+            then
+                Y_ADD = 0.075
+                gosub @WRITEMEM_Y
+            end
+            
+            if and
+                MOUSE_Y >= 30.0
+                not MOUSE_Y >= 40.0
+            then
+                Y_ADD = 0.1
+                gosub @WRITEMEM_Y
+            end
+            
+            if
+                MOUSE_Y >= 40.0
+            then
+                Y_ADD = 0.15
+                gosub @WRITEMEM_Y
+            end
+            
+            //Y2
+            if and
+                -1.0 >= MOUSE_Y
+                not -10.0 >= MOUSE_Y
+            then
+                Y_ADD = -0.025
+                gosub @WRITEMEM_Y
+            end
+            
+            if and
+                -10.0 >= MOUSE_Y
+                not -20.0 >= MOUSE_Y
+            then
+                Y_ADD = -0.05
+                gosub @WRITEMEM_Y
+            end
+            
+            if and
+                -20.0 >= MOUSE_Y
+                not -30.0 >= MOUSE_Y
+            then
+                Y_ADD = -0.075
+                gosub @WRITEMEM_Y
+            end
+            
+            if and
+                -30.0 >= MOUSE_Y
+                not -40.0 >= MOUSE_Y
+            then
+                Y_ADD = -0.1
+                gosub @WRITEMEM_Y
+            end
+            
+            if
+                -40.0 >= MOUSE_Y
+            then
+                Y_ADD = -0.15
+                gosub @WRITEMEM_Y
+            end
+            
+        end
+    end
+end
+
+:WRITEMEM_X
+wait 0
+05E0: MOUSE_X = read_memory 0x936910 size 4 virtual_protect 0
+05E0: X_VAL = read_memory X_FRT size 4 virtual_protect 0
+005B: X_VAL += X_ADD
+05DF: write_memory X_FRT size 4 value X_VAL virtual_protect 0
+return
+
+:WRITEMEM_Y
+wait 0
+05E0: MOUSE_Y = read_memory 0x936914 size 4 virtual_protect 0
+05E0: Y_VAL = read_memory Y_FRT size 4 virtual_protect 0 
+005B: Y_VAL += Y_ADD
+05DF: write_memory Y_FRT size 4 value Y_VAL virtual_protect 0
+return
