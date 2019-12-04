@@ -3,51 +3,86 @@
 thread 'HREGEN'
 
 0@ = 0
+1@ = 0
+16@ = 0
 
-:DEF
-wait 0
-if 
-   Player.Defined($PLAYER_CHAR)
-jf @DEF
-jump @HREGEN
+while true
+    wait 250
+    if 
+       Player.Defined($PLAYER_CHAR)
+    then
 
-:HREGEN
-wait 0
-
-//200 HP heal
-if and
-    $389 == 1 // 150 HP (pizza mission complete!)
-    $91 == 1 // 200 HP (100%)
-    8183:   not player $PLAYER_CHAR health > 99
-then
-    0@ = Actor.Health($PLAYER_ACTOR)
-    0@ += 1 
-    Actor.Health($PLAYER_ACTOR) = 0@
-    wait 6500
+        //200 HP heal
+        if and
+            $389 == 1 // 150 HP (pizza mission complete!)
+            $91 == 1 // 200 HP (100%)
+            8183:   not player $PLAYER_CHAR health > 99
+        then
+            if
+                1@ == 0
+            then
+                1@ = 1
+                16@ = 0
+            end
+            if and
+                16@ > 6500
+                1@ == 1
+            then
+                0@ = Actor.Health($PLAYER_ACTOR)
+                0@ += 1 
+                Actor.Health($PLAYER_ACTOR) = 0@
+                16@ = 0
+                1@ = 0
+            end
+        end
+        
+        //150 HP heal
+        if and
+            not $91 == 1
+            $389 == 1  // 150 HP MAX
+            8183:   not player $PLAYER_CHAR health > 74
+        then
+            if
+                1@ == 0
+            then
+                1@ = 1
+                16@ = 0
+            end
+            if and
+                16@ > 6500
+                1@ == 1
+            then
+                0@ = Actor.Health($PLAYER_ACTOR)
+                0@ += 1 
+                Actor.Health($PLAYER_ACTOR) = 0@
+                16@ = 0
+                1@ = 0
+            end
+        end
+        
+        //regular heal
+        if and
+            not $389 == 1
+            not $91 == 1
+            8183:   not player $PLAYER_CHAR health > 49
+        then
+            if
+                1@ == 0
+            then
+                1@ = 1
+                16@ = 0
+            end
+            if and
+                16@ > 6500
+                1@ == 1
+            then
+                0@ = Actor.Health($PLAYER_ACTOR)
+                0@ += 1 
+                Actor.Health($PLAYER_ACTOR) = 0@
+                16@ = 0
+                1@ = 0
+            end
+        end
+    
+    end
 end
-
-//150 HP heal
-if and
-    not $91 == 1
-    $389 == 1  // 150 HP MAX
-    8183:   not player $PLAYER_CHAR health > 74
-then
-    0@ = Actor.Health($PLAYER_ACTOR)
-    0@ += 1 
-    Actor.Health($PLAYER_ACTOR) = 0@
-    wait 6500
-end
-
-//regular heal
-if and
-    not $389 == 1
-    not $91 == 1
-    8183:   not player $PLAYER_CHAR health > 49
-then
-    0@ = Actor.Health($PLAYER_ACTOR)
-    0@ += 1 
-    Actor.Health($PLAYER_ACTOR) = 0@
-    wait 6500
-end
-
-jump @DEF
