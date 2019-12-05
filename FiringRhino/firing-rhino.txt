@@ -1,0 +1,178 @@
+{$CLEO .cs}
+
+thread 'FIRHINO'
+
+const
+X_POS = 0@
+Y_POS = 1@
+Z_POS = 2@
+TANK = 3@
+ARMY1 = 4@
+ARMY2 = 5@
+WANTED_LEVEL = 6@
+DONE = 7@
+X2_POS = 8@
+Y2_POS = 9@
+Z2_POS = 10@
+Z_ANGLE = 11@
+REFTANK = 12@
+TMP = 13@
+end
+
+DONE = 0
+
+while true
+    while 8112:   not wasted_or_busted
+    wait 50
+    01C0: WANTED_LEVEL = player $PLAYER_CHAR wanted_level //needed to store this to prevent crash with regular WL opcodes
+    if
+        DONE > 2                                                                                                                                                        
+    then
+        DONE = 0
+    end    
+    if and
+        DONE == 0
+        WANTED_LEVEL >= 6
+    then
+        //wait 15 seconds to spawn
+        16@ = 0
+        DONE = 1
+    end
+    if and
+        DONE == 1
+        WANTED_LEVEL >= 6
+        16@ > 15000
+    then
+        wait 50
+        0247: request_model #RHINO
+        0247: request_model #ARMY
+        0247: request_model #M4
+        038B: load_requested_models
+        
+        0054: store_player $PLAYER_CHAR position_to X_POS Y_POS Z_POS
+        04D3: get_nearest_car_path_coords_from X_POS Y_POS Z_POS type 2 store_to X2_POS Y2_POS Z2_POS
+        00A5: TANK = create_car #RHINO at X2_POS Y2_POS Z2_POS   
+        0129: ARMY1 = create_actor 4 #ARMY in_car TANK driverseat
+        0223: set_actor ARMY1 health_to 200
+        02A9: set_actor ARMY1 immune_to_nonplayer 1
+        0243: set_actor ARMY1 ped_stats_to 16
+        02E2: set_actor ARMY1 weapon_accuracy_to 90
+        01B2: give_actor ARMY1 weapon 26 ammo 99999
+        //01CA: actor ARMY1 kill_player $PLAYER_CHAR
+        
+        02AA: set_car TANK immune_to_nonplayer 1
+        020A: set_car TANK door_status_to 7
+        00AF: set_car TANK driver_behaviour_to 21
+        00AE: set_vehicle TANK traffic_behavior_to 2
+        
+        Car.StorePos(TANK, X2_POS, Y2_POS, Z2_POS)
+        Z2_POS -= 20.0
+        009A: ARMY2 = create_actor_pedtype 4 model #ARMY at X2_POS Y2_POS Z2_POS
+        0464: put_actor ARMY2 into_turret_on_car TANK at_car_offset 0.0 -0.3 0.8 position 0 angle 360.0 with_weapon 0
+        0337: set_actor ARMY2 visibility 0
+        02AB: set_actor ARMY2 immunities BP 1 FP 1 EP 1 CP 1 MP 1
+        0350: set_actor ARMY2 maintain_position_when_attacked 1
+        02A9: set_actor ARMY2 immune_to_nonplayer 1
+
+        0249: release_model #M4
+        0249: release_model #RHINO
+        0249: release_model #ARMY
+        17@ = 0
+        DONE = 2
+    end
+    
+    if and
+        DONE == 2
+        WANTED_LEVEL >= 6
+    then
+        if and
+            DONE == 2
+            81FC:   not player $PLAYER_CHAR near_car TANK radius 100.0 100.0 0 
+        then
+            01C3: remove_references_to_car TANK
+            DONE += 1
+        end
+    
+        while 01FC:   player $PLAYER_CHAR near_car TANK radius 70.0 70.0 0
+        wait 0
+            if and
+                Actor.Driving(ARMY1)
+                not Car.Wrecked(TANK)
+            then
+            020F: actor ARMY2 look_at_player $PLAYER_CHAR
+            0172: Z_ANGLE = actor ARMY2 z_angle
+            05E7: REFTANK = car TANK struct
+            000A: REFTANK += 0x5B0
+            0174: TMP = car TANK z_angle
+            0063: Z_ANGLE -= TMP
+            0017: Z_ANGLE /= 57.2957763671875
+            05DF: write_memory REFTANK size 4 value Z_ANGLE virtual_protect 0
+                if and
+                    17@ > 9800
+                    02CA:   car TANK bounding_sphere_visible
+                    01FC:   player $PLAYER_CHAR near_car TANK radius 15.0 15.0 0
+                then
+                    if
+                        not Actor.Dead(ARMY1)
+                    then
+                    0054: store_player $PLAYER_CHAR position_to X_POS Y_POS Z_POS
+                    020C: create_explosion_with_radius 10 at X_POS Y_POS Z_POS
+                    018C: play_sound 62 at 0.0 0.0 0.0
+                    17@ = 0
+                    end
+                end
+            end
+        end
+    end
+    
+    if and
+        DONE == 2
+        WANTED_LEVEL < 1
+    then
+        if
+            not Car.Wrecked(TANK)
+        then
+            00AF: set_car TANK driver_behaviour_to 10
+            00AE: set_vehicle TANK traffic_behavior_to 5
+        end
+        if
+            02BF:   car TANK sunk
+        then
+            01C3: remove_references_to_car TANK
+        end
+        if or
+            not Actor.Dead(ARMY1)
+            not Actor.Driving(ARMY1)
+        then
+            01ED: clear_actor ARMY1 threat_search
+            01C2: remove_references_to_actor ARMY1
+            01C2: remove_references_to_actor ARMY2
+        end
+        DONE += 1
+    end
+    
+    if and
+        DONE == 2
+        02BF:   car TANK sunk
+    then
+        01C3: remove_references_to_car TANK
+        DONE += 1
+    end
+    if and
+        DONE == 2
+        Actor.Dead(ARMY1)
+    then
+        01C2: remove_references_to_actor ARMY1
+        01C2: remove_references_to_actor ARMY2
+        DONE += 1
+    end
+    if and
+        DONE == 2
+        Car.Wrecked(TANK)
+    then
+        01C3: remove_references_to_car TANK
+        DONE += 1
+    end
+    
+    end
+end

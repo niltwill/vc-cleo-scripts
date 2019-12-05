@@ -1,0 +1,1 @@
+This script demonstrates how a tank can shoot you. It appears at 6* wanted level, though only one tank. It's a nice idea to use with the other "RemoveRhino" script, so only this tank appears for some challenge.
